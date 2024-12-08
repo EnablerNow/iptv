@@ -19,12 +19,12 @@ server {
     listen 80;
     server_name _;  # Accepts requests from any hostname
 
-    location /hls/ {
+    location / {
         types {
             application/vnd.apple.mpegurl m3u8;
             video/mp2t ts;
         }
-        alias /var/www/hls/;
+        alias /var/www/hls/live;
         add_header Cache-Control no-cache;
     }
 }
