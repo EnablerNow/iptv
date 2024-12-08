@@ -1,0 +1,17 @@
+[Unit]
+Description=HLS Streaming Service
+After=network.target
+
+[Service]
+ExecStart=/home/test/Documents/code/iptv/stream.sh
+Restart=always
+RestartSec=10s         # Wait 10 seconds before attempting a restart
+User=test
+Group=test
+Environment=PATH=/usr/bin:/usr/local/bin
+WorkingDirectory=/home/test/Documents/code/iptv
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
