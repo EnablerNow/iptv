@@ -1,11 +1,11 @@
 [Unit]
-Description=HLS Streaming Service
+Description=IPTV Stream Service
 After=network.target
 
 [Service]
-ExecStart=/home/test/Documents/code/iptv/stream.sh
+ExecStart=/bin/bash /home/test/Documents/code/iptv/stream.sh
 Restart=always
-RestartSec=10s         # Wait 10 seconds before attempting a restart
+RestartSec=10s
 User=test
 Group=test
 Environment=PATH=/usr/bin:/usr/local/bin
