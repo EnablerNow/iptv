@@ -1,4 +1,5 @@
 #!/bin/bash
+cd /home/test/Documents/code/iptv
 
 SERVICE_NAME="iptv"
 MAIN_DIR="/home/test/Documents/code/iptv"
@@ -8,6 +9,7 @@ PORT="80"
 OUTPUT_M3U="channels.m3u"  # Output M3U file
 USERNAME=""
 PASSWORD=""
+DEFAULT_GROUP_TITLE="IPTV Group"  # Set a default group title
 
 # Ensure the script is only run once
 lockfile="/var/lock/${SERVICE_NAME}.lock"
@@ -53,6 +55,9 @@ process_stream() {
   local GROUP_TITLE="$5"
   local SAFE_NAME=$(echo "$STREAM_NAME" | sed 's/ /_/g' | sed 's/[^a-zA-Z0-9_]//g')
   local OUTPUT_PLAYLIST="${OUTPUT_DIR}/${SAFE_NAME}.m3u8"
+
+  # Enforce default group title if not provided
+  GROUP_TITLE="${GROUP_TITLE:-$DEFAULT_GROUP_TITLE}"
 
   echo "Starting FFmpeg streaming for $STREAM_NAME"
   
@@ -117,9 +122,8 @@ else
       process_stream "$line" "$STREAM_NAME" "$TVG_ID" "$TVG_LOGO" "$GROUP_TITLE"
     fi
   done < "$M3U_FILE_OR_URL"
+  rsync -av "$OUTPUT_M3U" "$OUTPUT_DIR/$OUTPUT_M3U"
 fi
 
 wait
-
 echo "Stream URLs have been saved to $OUTPUT_M3U"
-rsync -av "$OUTPUT_M3U" "$OUTPUT_DIR"
